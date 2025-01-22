@@ -17,6 +17,10 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
+        Player player1 = new Player();
+        Maze maze = new Maze();
+
+
         Options options = new Options();
         Option flag = Option.builder("i")
             .hasArg()
@@ -30,6 +34,10 @@ public class Main {
             CommandLine commandLine = parser.parse(options, args); //parse command line
             logger.info("** Starting Maze Runner");
             String filepath = commandLine.getOptionValue("i");
+
+
+
+
 
             try {
                 logger.info("**** Reading the maze from file " + filepath);
