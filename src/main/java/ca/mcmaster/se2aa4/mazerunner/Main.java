@@ -18,7 +18,7 @@ public class Main {
 
     public static void main(String[] args) {
         Player player1 = new Player();
-        Maze maze = new Maze();
+        
 
 
         Options options = new Options();
@@ -56,6 +56,9 @@ public class Main {
             } catch(Exception e) {
                 logger.error("/!\\ An error has occured /!\\");
             }
+            Maze maze = new Maze(filepath);
+            maze.createMaze();
+            maze.printMaze();
             
         } catch (ParseException e) {
             logger.error(e.getMessage());
