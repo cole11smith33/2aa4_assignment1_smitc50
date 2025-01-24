@@ -17,7 +17,6 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
-        Player player1 = new Player();
         
 
 
@@ -34,10 +33,6 @@ public class Main {
             CommandLine commandLine = parser.parse(options, args); //parse command line
             logger.info("** Starting Maze Runner");
             String filepath = commandLine.getOptionValue("i");
-
-
-
-
 
             try {
                 logger.info("**** Reading the maze from file " + filepath);
@@ -58,7 +53,17 @@ public class Main {
             }
             Maze maze = new Maze(filepath);
             maze.createMaze();
+            Player player1 = new Player(maze.findEntrance());
+            maze.setMaze(player1.moveForward(maze.getMaze()));
+
+            //below example of how to hardcode a path in maze
             maze.printMaze();
+            logger.info("\n");
+            player1.rotateRight();
+            maze.setMaze(player1.moveForward(maze.getMaze())); 
+            maze.printMaze();
+
+
             
         } catch (ParseException e) {
             logger.error(e.getMessage());

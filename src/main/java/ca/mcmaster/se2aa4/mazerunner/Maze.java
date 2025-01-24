@@ -13,6 +13,8 @@ public class Maze {
     private static final Logger logger = LogManager.getLogger();
     private String filepath;
     private BufferedReader reader;
+    private int entranceY;
+    private int exitY;
 
     private List<List<Character>> mazeMap;
 
@@ -22,12 +24,22 @@ public class Maze {
         this.filepath = filepath;
         try {
             this.reader = new BufferedReader(new FileReader(filepath));
+            createMaze();
+            this.entranceY = findEntrance();
+            this.exitY = findExit();
         }
         catch (IOException e){
             logger.error("Unable to open file:" + filepath, e);
-        }
+        } 
     }
 
+    public List<List<Character>> getMaze(){
+        return mazeMap;
+    }
+
+    public void setMaze(List<List<Character>> mazeMap){
+        this.mazeMap = mazeMap;
+    }
 
     public void createMaze(){
         String line;
@@ -41,9 +53,8 @@ public class Maze {
                 }
                 mazeMap.add(mazeRow);
             }
-            reader.close(); // close the FileReader
         } catch (IOException e) {
-            logger.error("/!\\ An error has occured /!\\");
+            logger.error("/!\\ A bad error has occured /!\\");
         }
     }
 
@@ -53,5 +64,31 @@ public class Maze {
         }
     }
 
-    //method to find the entrance to the maze
+    public int  findEntrance(){
+        int y = 0;
+        for(List<Character> row: mazeMap) {
+            if (row.get(0) == ' '){
+                logger.trace(y);
+                return y;
+            }
+            else{
+                y++;
+            }
+        }
+        return y;
+    }
+
+    public int findExit(){
+        int y = 0;
+        for(List<Character> row: mazeMap) {
+            if (row.get(row.size()-1) == ' '){ //checks last character in each row
+                logger.trace(y);
+                return y;
+            }
+            else{
+                y++;
+            }
+        }
+        return y;
+    }
 }
