@@ -21,23 +21,28 @@ public class Player {
         this.currY = leftHandMazeOpening;
     }  
 
-    public void rotateLeft(){
+    public void rotateLeft(List<List<Character>> mazeMap){
         currentDirection--;
         if(currentDirection == -1){
             currentDirection = 3;
         }
+        mazeMap.get(currY).set(currX, movementPositions[currentDirection]);
         logger.trace(movementPositions[currentDirection]);
     }
 
-    public void rotateRight(){
+    public void rotateRight(List<List<Character>> mazeMap){
         currentDirection++;
         if(currentDirection == 4){
             currentDirection = 0;
         }
+        mazeMap.get(currY).set(currX, movementPositions[currentDirection]);
         logger.trace(movementPositions[currentDirection]);
     }
 
-    //STILL NEED TO INITIALIZE PLAYER POSITION IN THE LIST
+    public List<List<Character>> placePlayer(List<List<Character>> mazeMap){
+        saveNewPosition(mazeMap, currX, currY);
+        return mazeMap;
+    }
 
 
     public List<List<Character>> moveForward(List<List<Character>> mazeMap){

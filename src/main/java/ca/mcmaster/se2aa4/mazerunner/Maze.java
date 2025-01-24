@@ -25,30 +25,30 @@ public class Maze {
         try {
             this.reader = new BufferedReader(new FileReader(filepath));
             createMaze();
-            this.entranceY = findEntrance();
-            this.exitY = findExit();
+            this.entranceY = findEntrance(); //find entrance of the maze
+            this.exitY = findExit(); //find exit of the maze
         }
         catch (IOException e){
             logger.error("Unable to open file:" + filepath, e);
         } 
     }
 
-    public List<List<Character>> getMaze(){
+    public List<List<Character>> getMaze(){ //getter method for maze
         return mazeMap;
     }
 
-    public void setMaze(List<List<Character>> mazeMap){
+    public void setMaze(List<List<Character>> mazeMap){ //setter method for maze
         this.mazeMap = mazeMap;
     }
 
-    public void createMaze(){
+    public void createMaze(){ //method to initialize maze
         String line;
         try {
-            while((line = reader.readLine()) != null) { //adapted from provided code in main.java
+            while((line = reader.readLine()) != null) { //store each row as a new item in an array list
                 List<Character> mazeRow = new ArrayList<>();
                 for (int idx = 0; idx < line.length(); idx++){
                     if (line.charAt(idx) == '#' || line.charAt(idx) == ' '){
-                        mazeRow.add(line.charAt(idx));
+                        mazeRow.add(line.charAt(idx)); // store each element in the row as a column
                     }
                 }
                 mazeMap.add(mazeRow);
@@ -60,13 +60,13 @@ public class Maze {
 
     public void printMaze(){
         for(List<Character> row : mazeMap){
-            logger.info(row.toString());
+            logger.info(row.toString()); //turn each row of the maze to a string and output
         }
     }
 
-    public int  findEntrance(){
+    public int  findEntrance(){ 
         int y = 0;
-        for(List<Character> row: mazeMap) {
+        for(List<Character> row: mazeMap) { //index until a ' ' is found in the first column
             if (row.get(0) == ' '){
                 logger.trace(y);
                 return y;
@@ -81,7 +81,7 @@ public class Maze {
     public int findExit(){
         int y = 0;
         for(List<Character> row: mazeMap) {
-            if (row.get(row.size()-1) == ' '){ //checks last character in each row
+            if (row.get(row.size()-1) == ' '){ //checks last character in each row looking for a ' '
                 logger.trace(y);
                 return y;
             }

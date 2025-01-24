@@ -51,17 +51,26 @@ public class Main {
             } catch(Exception e) {
                 logger.error("/!\\ An error has occured /!\\");
             }
+            Pathfinder pathfinder = new Pathfinder();
             Maze maze = new Maze(filepath);
             maze.createMaze();
             Player player1 = new Player(maze.findEntrance());
-            maze.setMaze(player1.moveForward(maze.getMaze()));
-
-            //below example of how to hardcode a path in maze
+            player1.placePlayer(maze.getMaze());
             maze.printMaze();
-            logger.info("\n");
-            player1.rotateRight();
-            maze.setMaze(player1.moveForward(maze.getMaze())); 
-            maze.printMaze();
+            boolean exit = false;
+            while (true){
+                switch (pathfinder.readInput()) {
+                    case 'F' -> player1.moveForward(maze.getMaze());
+                    case 'R' -> player1.rotateRight(maze.getMaze());
+                    case 'L' -> player1.rotateLeft(maze.getMaze());
+                    case '0' -> {exit = true; break; }
+                }
+                if (exit == true){
+                    break;
+                }
+                maze.printMaze();
+                logger.info("\n");
+            }
 
 
             
