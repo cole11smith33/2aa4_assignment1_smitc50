@@ -27,12 +27,28 @@ public class Main {
             .desc("Filepath to the maze")
             .build();
 
-        options.addOption(flag); // add flag option
+        Option pFlag = Option.builder("p")
+            .hasArg()
+            .desc("Path through maze")
+            .build();
+
+        options.addOption(flag); // add filepath flag option
+        options.addOption(pFlag); // add path flag option
         CommandLineParser parser = new DefaultParser();
         try {
             CommandLine commandLine = parser.parse(options, args); //parse command line
             logger.info("** Starting Maze Runner");
             String filepath = commandLine.getOptionValue("i");
+            Pathfinder pathfinder;
+            if (commandLine.hasOption("p")){
+                String pathway = commandLine.getOptionValue("p");
+                logger.trace(pathway);
+                pathfinder = new Pathfinder(pathway);
+            }
+            else{
+                pathfinder = new Pathfinder();
+            }
+
 
             try {
                 logger.info("**** Reading the maze from file " + filepath);
@@ -51,13 +67,13 @@ public class Main {
             } catch(Exception e) {
                 logger.error("/!\\ An error has occured /!\\");
             }
-            Pathfinder pathfinder = new Pathfinder();
             Maze maze = new Maze(filepath);
             maze.createMaze();
             Player player1 = new Player(maze.findEntrance());
             player1.placePlayer(maze.getMaze());
             maze.printMaze();
             boolean exit = false;
+
             while (true){
                 switch (pathfinder.readInput()) {
                     case 'F' -> player1.moveForward(maze.getMaze());
