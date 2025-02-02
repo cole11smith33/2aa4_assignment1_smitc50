@@ -1,5 +1,4 @@
 package ca.mcmaster.se2aa4.mazerunner;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -44,37 +43,52 @@ public class Player {
         return mazeMap;
     }
 
+    private boolean isValidMove(List<List<Character>> mazeMap, int x, int y){
+        return mazeMap.get(y).get(x) != '#';
+    }
 
     public List<List<Character>> moveForward(List<List<Character>> mazeMap){
-        deletePreviousPosition(mazeMap, currX, currY);
+        int nextX = currX;
+        int nextY = currY;
+
         switch(currentDirection){
-            case 0 -> moveRight();
-            case 1 -> moveDown();
-            case 2 -> moveLeft();
-            case 3 -> moveUp();
+            case 0 -> nextX = moveRight(nextX);
+            case 1 -> nextY = moveDown(nextY);
+            case 2 -> nextX = moveLeft(nextX);
+            case 3 -> nextY = moveUp(nextY);
         }
-        saveNewPosition(mazeMap, currX, currY);
+
+        if(isValidMove(mazeMap, nextX, nextY)) {
+            deletePreviousPosition(mazeMap, currX, currY);
+            currX = nextX;
+            currY = nextY;
+            saveNewPosition(mazeMap, currX, currY);
+        }
         return mazeMap;
     }
 
-    private void moveUp(){
-        currY--;
+    private int moveUp(int nextY){
+        nextY--;
         logger.trace("Moving Up");
+        return nextY;
     }
 
-    private void moveDown(){
-        currY++;
+    private int moveDown(int nextY){
+        nextY++;
         logger.trace("Moving Down");
+        return nextY;
     }
 
-    private void moveRight(){
-        currX++;
+    private int moveRight(int nextX){
+        nextX++;
         logger.trace("Moving Right");
+        return nextX;
     }
 
-    private void moveLeft(){
-        currX--;
+    private int moveLeft(int nextX){
+        nextX--;
         logger.trace("Moving Left");
+        return nextX;
     }
 
     private List<List<Character>> deletePreviousPosition(List<List<Character>> mazeMap, int x, int y){
