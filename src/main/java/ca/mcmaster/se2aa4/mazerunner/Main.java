@@ -39,15 +39,6 @@ public class Main {
             CommandLine commandLine = parser.parse(options, args); //parse command line
             logger.info("** Starting Maze Runner");
             String filepath = commandLine.getOptionValue("i");
-            Pathfinder pathfinder;
-            if (commandLine.hasOption("p")){
-                String pathway = commandLine.getOptionValue("p");
-                logger.trace(pathway);
-                pathfinder = new Pathfinder(pathway);
-            }
-            else{
-                pathfinder = new Pathfinder();
-            }
 
 
             try {
@@ -71,24 +62,54 @@ public class Main {
             maze.createMaze();
             Player player1 = new Player(maze.findEntrance());
             player1.placePlayer(maze.getMaze());
-            maze.printMaze();
-            boolean exit = false;
 
-            while (true){
-                switch (pathfinder.readInput()) {
-                    case 'F' -> player1.moveForward(maze.getMaze());
-                    case 'R' -> player1.rotateRight(maze.getMaze());
-                    case 'L' -> player1.rotateLeft(maze.getMaze());
-                    case '0' -> {exit = true; break; }
-                }
-                if (exit == true){
-                    break;
-                }
+            Pathfinder pathfinder;
+            if (commandLine.hasOption("p")){
+                String pathway = commandLine.getOptionValue("p");
+                logger.trace(pathway);
+                pathfinder = new Pathfinder(pathway);
                 maze.printMaze();
-                logger.info("\n");
+                boolean exit = false;
+    
+                while (true){
+                    switch (pathfinder.readInput()) {
+                        case 'F' -> player1.moveForward(maze.getMaze());
+                        case 'R' -> player1.rotateRight(maze.getMaze());
+                        case 'L' -> player1.rotateLeft(maze.getMaze());
+                        case '0' -> {exit = true; break; }
+                    }
+                    if (exit == true){
+                        break;
+                    }
+                    maze.printMaze();
+                    logger.info("\n");
+                }
             }
 
-
+            else {
+                StringBuilder movementPath = new StringBuilder();
+                //still need to stringbuild and fix error
+                try {
+                    while (true) { 
+                        maze.printMaze();
+                        if(player1.canMoveRight(maze.getMaze())){
+                            player1.rotateRight(maze.getMaze());
+                            player1.moveForward(maze.getMaze());
+                            movementPath.append("RF");
+                        }
+                        else if(player1.canMoveForward(maze.getMaze())){
+                            player1.moveForward(maze.getMaze());
+                            movementPath.append("F");
+                        }
+                        else{
+                            player1.rotateLeft(maze.getMaze());
+                            movementPath.append("L");
+                        }
+                    }
+                } catch (Exception e) {
+                    logger.info(movementPath);
+                }
+            }
             
         } catch (ParseException e) {
             logger.error(e.getMessage());

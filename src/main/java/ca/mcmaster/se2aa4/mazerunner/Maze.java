@@ -60,7 +60,7 @@ public class Maze {
 
     public void printMaze(){
         for(List<Character> row : mazeMap){
-            logger.info(row.toString()); //turn each row of the maze to a string and output
+            logger.trace(row.toString()); //turn each row of the maze to a string and output
         }
     }
 

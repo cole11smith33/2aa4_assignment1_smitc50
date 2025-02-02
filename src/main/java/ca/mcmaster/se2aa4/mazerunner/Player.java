@@ -91,6 +91,60 @@ public class Player {
         return nextX;
     }
 
+    public boolean canMoveRight(List<List<Character>> mazeMap){
+
+        int nextX = currX;
+        int nextY = currY;
+
+        rotateRight(mazeMap);
+        //check tile in front
+        switch(currentDirection){
+            case 0 -> nextX = moveRight(nextX);
+            case 1 -> nextY = moveDown(nextY);
+            case 2 -> nextX = moveLeft(nextX);
+            case 3 -> nextY = moveUp(nextY);
+        }
+
+        if (mazeMap.get(nextY).get(nextX) == ' '){
+            nextX = currX;
+            nextY = currY;
+            rotateLeft(mazeMap);
+            return true;
+        }
+        else{
+            nextX = currX;
+            nextY = currY;
+            rotateLeft(mazeMap);
+            return false;
+        }
+        //move left
+    }
+
+    public boolean canMoveForward(List<List<Character>> mazeMap){
+
+        int nextX = currX;
+        int nextY = currY;
+
+        //check tile in front
+        switch(currentDirection){
+            case 0 -> nextX = moveRight(nextX);
+            case 1 -> nextY = moveDown(nextY);
+            case 2 -> nextX = moveLeft(nextX);
+            case 3 -> nextY = moveUp(nextY);
+        }
+
+        if (mazeMap.get(nextY).get(nextX) == ' '){
+            nextX = currX;
+            nextY = currY;
+            return true;
+        }
+        else{
+            nextX = currX;
+            nextY = currY;
+            return false;
+        }
+    }
+
     private List<List<Character>> deletePreviousPosition(List<List<Character>> mazeMap, int x, int y){
         mazeMap.get(y).set(x, ' ');
         return mazeMap;
