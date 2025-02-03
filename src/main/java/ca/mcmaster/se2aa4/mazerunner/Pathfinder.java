@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Pathfinder {
     private static final Logger logger = LogManager.getLogger();
-    private String pathway = "FLFRFFLFFFFFFRFFFFRFFLFFRFFLF";
+    private String pathway = "";
     private int index = 0;
     private List<List<Character>> mazeMap;
 
@@ -39,6 +39,32 @@ public class Pathfinder {
             }
         }
         return factorizedPathway;
+    }
+
+    public void convertToStandard(String path){
+        StringBuilder pathway = new StringBuilder(path);
+        StringBuilder standard = new StringBuilder();
+        int movement = 0;
+
+        while (movement < pathway.length()){
+            char character = pathway.charAt(movement);
+            if (character == ' '){ //bug here that needs to be fixed in morning
+                character = pathway.charAt(movement+1);
+            }
+            else if (Character.isDigit(character)){
+                int count = Character.getNumericValue(character);
+                if (movement + 1 < pathway.length()){
+                    char move = pathway.charAt(movement + 1);
+                    standard.append(String.valueOf(move).repeat(count));
+                    movement = movement + 2;
+                }
+            }
+            else{
+                standard.append(character);
+                movement++;
+            }     
+        }
+        this.pathway = standard.toString();
     }
 
     public char readInput(){

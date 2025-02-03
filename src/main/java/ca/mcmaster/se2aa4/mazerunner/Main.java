@@ -68,6 +68,7 @@ public class Main {
                 String pathway = commandLine.getOptionValue("p");
                 logger.trace(pathway);
                 pathfinder = new Pathfinder(pathway);
+                pathfinder.convertToStandard(pathway);
                 maze.printMaze();
                 boolean exit = false;
     
@@ -95,7 +96,7 @@ public class Main {
                 
                 logger.info("**** Computing path");
                 try {
-                    while (maze.gameOver() == true) { 
+                    while (true) { 
                         maze.printMaze();
                         if(player1.canMoveRight(maze.getMaze())){
                             player1.rotateRight(maze.getMaze());
@@ -110,11 +111,15 @@ public class Main {
                             player1.rotateLeft(maze.getMaze());
                             movementPath.append("L");
                         }
+                        if (maze.gameOver() == true){
+                            logger.info("** PATH VALID");
+                            break; //path validation 
+                        }
                     }
                     logger.info("Valid Path: " + pathfinder.convertToFactorized(movementPath));
                     
                 } catch (Exception e) {
-                    logger.info("Valid Path: " + pathfinder.convertToFactorized(movementPath));
+                    logger.error(e.getMessage());
                 }
             }    
         } catch (ParseException e) {
