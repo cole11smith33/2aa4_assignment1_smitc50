@@ -5,22 +5,18 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Pathfinder {
+public class ConvertPath {
+    private PathfindingAlgorithm algorithm;
     private static final Logger logger = LogManager.getLogger();
     private String pathway = "";
     private int index = 0;
-    private List<List<Character>> mazeMap;
 
-    public Pathfinder(List<List<Character>> mazeMap, int startX, int startY, int exitY) {
-        this.mazeMap = mazeMap;
-        this.index = index;
+    public ConvertPath(PathfindingAlgorithm algorithm) {
+        this.algorithm = algorithm;
     }
 
-    //refactor to move the findPathway function to here
-
-    public Pathfinder(String pathway) {
-        this.pathway = pathway;
-        this.index = index;
+    public void pathfind(Player player, Maze maze){
+        algorithm.findPath(player, maze);
     }
     
     public StringBuilder convertToFactorized(StringBuilder pathway) {
@@ -75,54 +71,5 @@ public class Pathfinder {
         } catch (Exception e) {
             return '0'; //end of pathway
         }
-    }
-    public void predefinedPath(Pathfinder pathfinder, String pathway, Player player, Maze maze){
-        logger.trace(pathway);
-        pathfinder = new Pathfinder(pathway);
-        pathfinder.convertToStandard(pathway);
-        maze.printMaze();
-        boolean exit = false;
-
-        while (true){
-            switch (pathfinder.readInput()) {
-                case 'F' -> player.moveForward(maze.getMaze());
-                case 'R' -> player.rotateRight(maze.getMaze());
-                case 'L' -> player.rotateLeft(maze.getMaze());
-                case '0' -> {exit = true; break; }
-            }
-            if (exit == true){
-                break;
-            }
-            maze.printMaze();
-            logger.trace("\n");
-        }
-        if (maze.gameOver() == true){
-            logger.info("** PATH VALID"); //path validation 
-        }
-    }
-    public void rightHandRule(Pathfinder pathfinder, String pathway, Player player, Maze maze){
-        StringBuilder movementPath = new StringBuilder();
-        logger.info("**** Computing path");
-        while (true) { 
-            maze.printMaze();
-            if(player.canMoveRight(maze.getMaze())){
-                player.rotateRight(maze.getMaze());
-                player.moveForward(maze.getMaze());
-                movementPath.append("RF");
-            }
-            else if(player.canMoveForward(maze.getMaze())){
-                player.moveForward(maze.getMaze());
-                movementPath.append("F");
-            }
-            else{
-                player.rotateLeft(maze.getMaze());
-                movementPath.append("L");
-            }
-            if (maze.gameOver() == true){
-                logger.info("** PATH VALID");
-                break; //path validation 
-            }
-        }
-        logger.info("Valid Path: " + pathfinder.convertToFactorized(movementPath));
     }
 }

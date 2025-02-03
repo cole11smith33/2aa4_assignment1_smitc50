@@ -98,31 +98,29 @@ public class Player {
 
         rotateRight(mazeMap);
         //check tile in front
-        switch(currentDirection){
+        switch(currentDirection){ //move current direction
             case 0 -> nextX = moveRight(nextX);
             case 1 -> nextY = moveDown(nextY);
             case 2 -> nextX = moveLeft(nextX);
             case 3 -> nextY = moveUp(nextY);
         }
-
+        // see if this move has a valid character in its place
         if (mazeMap.get(nextY).get(nextX) == ' '){
             nextX = currX;
             nextY = currY;
             rotateLeft(mazeMap);
             return true;
         }
-        else{
+        else{ //no valid character, so move back to where we were before
             nextX = currX;
             nextY = currY;
             rotateLeft(mazeMap);
             return false;
         }
-        //move left
     }
 
-    public boolean canMoveForward(List<List<Character>> mazeMap){
-
-        int nextX = currX;
+    public boolean canMoveForward(List<List<Character>> mazeMap){ // checks if player would be able to move directly forward in regards to current direction
+        int nextX = currX; 
         int nextY = currY;
 
         //check tile in front

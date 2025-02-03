@@ -11,6 +11,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.w3c.dom.UserDataHandler;
 
 public class Main {
 
@@ -33,6 +34,7 @@ public class Main {
         options.addOption(flag); // add filepath flag option
         options.addOption(pFlag); // add path flag option
         CommandLineParser parser = new DefaultParser();
+
         try {
             CommandLine commandLine = parser.parse(options, args); //parse command line
             logger.info("** Starting Maze Runner");
@@ -57,27 +59,26 @@ public class Main {
                 logger.error("/!\\ An error has occured /!\\");
             }
 
-
             Maze maze = new Maze(filepath);
-            maze.createMaze();
             Player player1 = new Player(maze.findEntrance());
-            player1.placePlayer(maze.getMaze());
-            Pathfinder pathfinder;
-
+            ConvertPath pathfinder;
             
+            player1.placePlayer(maze.getMaze());
+
+            PathfindingAlgorithm algorithm;
             if (commandLine.hasOption("p")){
                 String pathway = commandLine.getOptionValue("p");
-                pathfinder = new Pathfinder(pathway);
-                pathfinder.predefinedPath(pathfinder, pathway, player1, maze);
+                algorithm = new UserProvidedPath(pathway);
             }
             else {
-                pathfinder = new Pathfinder(maze.getMaze(), maze.findEntrance(), 0, maze.findExit());
-                pathfinder.rightHandRule(pathfinder, filepath, player1, maze);
+                algorithm = new RightHandRule();
             }    
+            pathfinder = new ConvertPath(algorithm);
+            pathfinder.pathfind(player1, maze);
+
         } catch (ParseException e) {
             logger.error(e.getMessage());
         }
-        // logger.warn("PATH NOT COMPUTED");
         logger.info("** End of MazeRunner");
     }
 }
