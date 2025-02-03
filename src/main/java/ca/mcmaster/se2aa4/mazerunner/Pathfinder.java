@@ -76,4 +76,53 @@ public class Pathfinder {
             return '0'; //end of pathway
         }
     }
+    public void predefinedPath(Pathfinder pathfinder, String pathway, Player player, Maze maze){
+        logger.trace(pathway);
+        pathfinder = new Pathfinder(pathway);
+        pathfinder.convertToStandard(pathway);
+        maze.printMaze();
+        boolean exit = false;
+
+        while (true){
+            switch (pathfinder.readInput()) {
+                case 'F' -> player.moveForward(maze.getMaze());
+                case 'R' -> player.rotateRight(maze.getMaze());
+                case 'L' -> player.rotateLeft(maze.getMaze());
+                case '0' -> {exit = true; break; }
+            }
+            if (exit == true){
+                break;
+            }
+            maze.printMaze();
+            logger.trace("\n");
+        }
+        if (maze.gameOver() == true){
+            logger.info("** PATH VALID"); //path validation 
+        }
+    }
+    public void rightHandRule(Pathfinder pathfinder, String pathway, Player player, Maze maze){
+        StringBuilder movementPath = new StringBuilder();
+        logger.info("**** Computing path");
+        while (true) { 
+            maze.printMaze();
+            if(player.canMoveRight(maze.getMaze())){
+                player.rotateRight(maze.getMaze());
+                player.moveForward(maze.getMaze());
+                movementPath.append("RF");
+            }
+            else if(player.canMoveForward(maze.getMaze())){
+                player.moveForward(maze.getMaze());
+                movementPath.append("F");
+            }
+            else{
+                player.rotateLeft(maze.getMaze());
+                movementPath.append("L");
+            }
+            if (maze.gameOver() == true){
+                logger.info("** PATH VALID");
+                break; //path validation 
+            }
+        }
+        logger.info("Valid Path: " + pathfinder.convertToFactorized(movementPath));
+    }
 }

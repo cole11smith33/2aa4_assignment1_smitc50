@@ -18,8 +18,6 @@ public class Main {
 
     public static void main(String[] args) {
         
-
-
         Options options = new Options();
         Option flag = Option.builder("i")
             .hasArg()
@@ -58,69 +56,23 @@ public class Main {
             } catch(Exception e) {
                 logger.error("/!\\ An error has occured /!\\");
             }
+
+
             Maze maze = new Maze(filepath);
             maze.createMaze();
             Player player1 = new Player(maze.findEntrance());
             player1.placePlayer(maze.getMaze());
-
             Pathfinder pathfinder;
+
+            
             if (commandLine.hasOption("p")){
                 String pathway = commandLine.getOptionValue("p");
-                logger.trace(pathway);
                 pathfinder = new Pathfinder(pathway);
-                pathfinder.convertToStandard(pathway);
-                maze.printMaze();
-                boolean exit = false;
-    
-                while (true){
-                    switch (pathfinder.readInput()) {
-                        case 'F' -> player1.moveForward(maze.getMaze());
-                        case 'R' -> player1.rotateRight(maze.getMaze());
-                        case 'L' -> player1.rotateLeft(maze.getMaze());
-                        case '0' -> {exit = true; break; }
-                    }
-                    if (exit == true){
-                        break;
-                    }
-                    maze.printMaze();
-                    logger.trace("\n");
-                }
-                if (maze.gameOver() == true){
-                    logger.info("** PATH VALID"); //path validation 
-                }
+                pathfinder.predefinedPath(pathfinder, pathway, player1, maze);
             }
-
             else {
                 pathfinder = new Pathfinder(maze.getMaze(), maze.findEntrance(), 0, maze.findExit());
-                StringBuilder movementPath = new StringBuilder();
-                
-                logger.info("**** Computing path");
-                try {
-                    while (true) { 
-                        maze.printMaze();
-                        if(player1.canMoveRight(maze.getMaze())){
-                            player1.rotateRight(maze.getMaze());
-                            player1.moveForward(maze.getMaze());
-                            movementPath.append("RF");
-                        }
-                        else if(player1.canMoveForward(maze.getMaze())){
-                            player1.moveForward(maze.getMaze());
-                            movementPath.append("F");
-                        }
-                        else{
-                            player1.rotateLeft(maze.getMaze());
-                            movementPath.append("L");
-                        }
-                        if (maze.gameOver() == true){
-                            logger.info("** PATH VALID");
-                            break; //path validation 
-                        }
-                    }
-                    logger.info("Valid Path: " + pathfinder.convertToFactorized(movementPath));
-                    
-                } catch (Exception e) {
-                    logger.error(e.getMessage());
-                }
+                pathfinder.rightHandRule(pathfinder, filepath, player1, maze);
             }    
         } catch (ParseException e) {
             logger.error(e.getMessage());
