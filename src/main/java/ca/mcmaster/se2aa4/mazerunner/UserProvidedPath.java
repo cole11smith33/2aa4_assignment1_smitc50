@@ -33,7 +33,10 @@ public class UserProvidedPath implements PathfindingAlgorithm{
             logger.trace("\n");
         }
         if (maze.gameOver() == true){
-            logger.info("** PATH VALID"); //path validation 
+            System.out.println("correct path"); //path validation 
+        }
+        else{
+            System.out.println("incorrect path"); 
         }
     }
     

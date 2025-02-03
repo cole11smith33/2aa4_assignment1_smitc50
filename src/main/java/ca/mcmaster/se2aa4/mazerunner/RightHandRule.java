@@ -32,6 +32,6 @@ public class RightHandRule implements PathfindingAlgorithm{
             }
         }
         ConvertPath convertPath = new ConvertPath(this);
-        logger.info("Valid Path: " + convertPath.convertToFactorized(movementPath));
+        System.out.println(convertPath.convertToFactorized(movementPath));
     }
 }

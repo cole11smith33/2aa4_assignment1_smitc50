@@ -31,7 +31,6 @@ public class ConvertPath {
                 if(count > 1){ factorizedPathway.append(count); }
                 factorizedPathway.append(pathway.charAt(movement - 1));
                 count = 1; //reset count back to one
-                factorizedPathway.append(' ');
             }
         }
         return factorizedPathway;
