@@ -23,6 +23,10 @@ public class Pathfinder {
         this.index = index;
     }
     
+    //public factorized(StringBuilder path){
+
+    //}
+
     public char readInput(){
         try { //index through maze until an index error appears, then you know you have traveled through the whole maze
             char currMove = pathway.charAt(index);

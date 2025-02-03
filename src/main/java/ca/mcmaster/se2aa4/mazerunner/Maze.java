@@ -60,8 +60,10 @@ public class Maze {
 
     public void printMaze(){
         for(List<Character> row : mazeMap){
-            logger.trace(row.toString()); //turn each row of the maze to a string and output
+            logger.info(row.toString()); //turn each row of the maze to a string and output
+        
         }
+        logger.info("\n"); 
     }
 
     public int  findEntrance(){ 
@@ -75,6 +77,7 @@ public class Maze {
                 y++;
             }
         }
+        y = this.exitY;
         return y;
     }
 
@@ -90,5 +93,12 @@ public class Maze {
             }
         }
         return y;
+    }
+
+    public boolean gameOver(){ //this is the path validation to see if we are at the end of the maze
+        if(mazeMap.get(exitY).get(mazeMap.get(0).size()-1) != ' ' || mazeMap.get(exitY).get(mazeMap.get(0).size()-1) != '#'){ // checks if the character is a player character at the x,y coordinate at the end of the maze
+            return true;
+        }
+        else{ return false; }
     }
 }

@@ -82,13 +82,18 @@ public class Main {
                         break;
                     }
                     maze.printMaze();
-                    logger.info("\n");
+                    logger.trace("\n");
+                }
+                if (maze.gameOver() == true){
+                    logger.info("** PATH VALID"); //path validation 
                 }
             }
 
             else {
+                
                 StringBuilder movementPath = new StringBuilder();
-                //still need to stringbuild and fix error
+                
+                logger.info("**** Computing path");
                 try {
                     while (true) { 
                         maze.printMaze();
@@ -105,7 +110,11 @@ public class Main {
                             player1.rotateLeft(maze.getMaze());
                             movementPath.append("L");
                         }
+                        if (maze.gameOver() == false){
+                            break;
+                        }
                     }
+                    logger.info("Valid Path: " + movementPath);
                 } catch (Exception e) {
                     logger.info(movementPath);
                 }
@@ -114,8 +123,7 @@ public class Main {
         } catch (ParseException e) {
             logger.error(e.getMessage());
         }
-        logger.info("**** Computing path");
-        logger.warn("PATH NOT COMPUTED");
+        // logger.warn("PATH NOT COMPUTED");
         logger.info("** End of MazeRunner");
     }
 }
