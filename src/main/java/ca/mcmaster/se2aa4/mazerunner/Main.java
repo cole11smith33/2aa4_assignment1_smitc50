@@ -90,12 +90,12 @@ public class Main {
             }
 
             else {
-                
+                pathfinder = new Pathfinder(maze.getMaze(), maze.findEntrance(), 0, maze.findExit());
                 StringBuilder movementPath = new StringBuilder();
                 
                 logger.info("**** Computing path");
                 try {
-                    while (true) { 
+                    while (maze.gameOver() == true) { 
                         maze.printMaze();
                         if(player1.canMoveRight(maze.getMaze())){
                             player1.rotateRight(maze.getMaze());
@@ -110,16 +110,13 @@ public class Main {
                             player1.rotateLeft(maze.getMaze());
                             movementPath.append("L");
                         }
-                        if (maze.gameOver() == false){
-                            break;
-                        }
                     }
-                    logger.info("Valid Path: " + movementPath);
+                    logger.info("Valid Path: " + pathfinder.convertToFactorized(movementPath));
+                    
                 } catch (Exception e) {
-                    logger.info(movementPath);
+                    logger.info("Valid Path: " + pathfinder.convertToFactorized(movementPath));
                 }
-            }
-            
+            }    
         } catch (ParseException e) {
             logger.error(e.getMessage());
         }

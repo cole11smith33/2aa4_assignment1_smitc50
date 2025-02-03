@@ -23,9 +23,23 @@ public class Pathfinder {
         this.index = index;
     }
     
-    //public factorized(StringBuilder path){
-
-    //}
+    public StringBuilder convertToFactorized(StringBuilder pathway) {
+        StringBuilder factorizedPathway = new StringBuilder();
+        int count = 1;
+        //iterate through pathway and convert all movements
+        for(int movement = 1; movement <= pathway.length(); movement++) {
+            if(movement < pathway.length() && pathway.charAt(movement) == pathway.charAt(movement - 1)){ // if next character is the same as current character, increment counter
+                count++;
+            }
+            else{ //formats a set of repetitive movements in the factorized form
+                if(count > 1){ factorizedPathway.append(count); }
+                factorizedPathway.append(pathway.charAt(movement - 1));
+                count = 1; //reset count back to one
+                factorizedPathway.append(' ');
+            }
+        }
+        return factorizedPathway;
+    }
 
     public char readInput(){
         try { //index through maze until an index error appears, then you know you have traveled through the whole maze
