@@ -43,15 +43,15 @@ public class ConvertPath {
 
         while (movement < pathway.length()){
             char character = pathway.charAt(movement);
-            if (character == ' '){ //bug here that needs to be fixed in morning
+            if (character == ' '){ //if space is encountered with input, ignore it
                 character = pathway.charAt(movement+1);
             }
-            else if (Character.isDigit(character)){
+            else if (Character.isDigit(character)){ //character being a digit means to repeat the next character that digit amount of times
                 int count = Character.getNumericValue(character);
-                if (movement + 1 < pathway.length()){
+                if (movement + 1 < pathway.length()){ //makes certain that the next character exists
                     char move = pathway.charAt(movement + 1);
                     standard.append(String.valueOf(move).repeat(count));
-                    movement = movement + 2;
+                    movement = movement + 2; //skip the next character because it has already been accounted for
                 }
             }
             else{
@@ -59,7 +59,7 @@ public class ConvertPath {
                 movement++;
             }     
         }
-        this.pathway = standard.toString();
+        this.pathway = standard.toString(); //store the pathway in standard form
     }
 
     public char readInput(){

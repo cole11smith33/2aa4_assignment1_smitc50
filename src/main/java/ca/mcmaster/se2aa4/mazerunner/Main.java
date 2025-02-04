@@ -59,22 +59,25 @@ public class Main {
                 logger.error("/!\\ An error has occured /!\\");
             }
 
+
+
             Maze maze = new Maze(filepath);
             Player player1 = new Player(maze.findEntrance());
             ConvertPath pathfinder;
-            
-            player1.placePlayer(maze.getMaze());
+
+            player1.placePlayer(maze.getMaze()); //place player in maze
 
             PathfindingAlgorithm algorithm;
-            if (commandLine.hasOption("p")){
+
+            if (commandLine.hasOption("p")){ //if path is given, then use the UserProvidedPath algorithm
                 String pathway = commandLine.getOptionValue("p");
                 algorithm = new UserProvidedPath(pathway);
             }
-            else {
+            else { //if the path isn't given, the use the RightHandRule algorithm
                 algorithm = new RightHandRule();
             }    
             pathfinder = new ConvertPath(algorithm);
-            pathfinder.pathfind(player1, maze);
+            pathfinder.pathfind(player1, maze); //find or validate the path depending on if -p is present (Liskov Substitution Principle shown here)
 
         } catch (ParseException e) {
             logger.error(e.getMessage());
