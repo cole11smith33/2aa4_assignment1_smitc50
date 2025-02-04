@@ -44,6 +44,9 @@ public class Player {
     }
 
     private boolean isValidMove(List<List<Character>> mazeMap, int x, int y){
+        if(x < 0 || x >= mazeMap.get(y).size()){//if you go out of bound (only able to happen when you go throught the entrance or exit)
+            return false;
+        }
         return mazeMap.get(y).get(x) != '#'; //check if current square is a #, which represents a wall, making the move invalid
     }
 

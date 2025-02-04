@@ -20,6 +20,7 @@ public class ConvertPath {
     }
     
     public StringBuilder convertToFactorized(StringBuilder pathway) {
+        logger.info(pathway);
         StringBuilder factorizedPathway = new StringBuilder();
         int count = 1;
         //iterate through pathway and convert all movements
@@ -39,19 +40,23 @@ public class ConvertPath {
     public void convertToStandard(String path){
         StringBuilder pathway = new StringBuilder(path);
         StringBuilder standard = new StringBuilder();
+        
         int movement = 0;
 
         while (movement < pathway.length()){
             char character = pathway.charAt(movement);
-            if (character == ' '){ //if space is encountered with input, ignore it
-                character = pathway.charAt(movement+1);
-            }
-            else if (Character.isDigit(character)){ //character being a digit means to repeat the next character that digit amount of times
-                int count = Character.getNumericValue(character);
-                if (movement + 1 < pathway.length()){ //makes certain that the next character exists
-                    char move = pathway.charAt(movement + 1);
+            if (Character.isDigit(character)){ //character being a digit means to repeat the next character that digit amount of times
+                StringBuilder consecDigits = new StringBuilder();
+                while(movement < pathway.length() && Character.isDigit(pathway.charAt(movement))){
+                    consecDigits.append(pathway.charAt(movement));
+                    movement++;
+                }
+                
+                int count = Integer.parseInt(consecDigits.toString());
+                if (movement < pathway.length()){ //makes certain that the next character exists
+                    char move = pathway.charAt(movement);
                     standard.append(String.valueOf(move).repeat(count));
-                    movement = movement + 2; //skip the next character because it has already been accounted for
+                    movement = movement+1; //skip the next character because it has already been accounted for
                 }
             }
             else{

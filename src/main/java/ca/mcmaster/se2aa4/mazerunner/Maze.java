@@ -58,10 +58,10 @@ public class Maze {
 
     public void printMaze(){ //output the maze to logger
         for(List<Character> row : mazeMap){
-            logger.trace(row.toString()); //turn each row of the maze to a string and output
+            logger.info(row.toString()); //turn each row of the maze to a string and output
         
         }
-        logger.trace("\n"); 
+        logger.info("\n"); 
     }
 
     public int  findEntrance(){ //find the y value of the entrance of the maze
