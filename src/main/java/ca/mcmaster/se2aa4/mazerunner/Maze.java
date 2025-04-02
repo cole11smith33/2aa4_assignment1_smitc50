@@ -58,6 +58,7 @@ public class Maze {
     }
 
     public void printMaze(){ //output the maze to logger
+        //this function is only used for the purpose of debugging
         for(List<Character> row : mazeMap){
             logger.info(row.toString()); //turn each row of the maze to a string and output
         

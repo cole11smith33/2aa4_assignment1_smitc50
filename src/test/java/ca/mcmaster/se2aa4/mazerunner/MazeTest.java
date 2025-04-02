@@ -10,7 +10,7 @@ public class MazeTest {
     private Maze maze;
 
     @BeforeEach
-    void formMaze(){
+    void setUp(){
         maze = new Maze(MazeFilepath);
     }
 

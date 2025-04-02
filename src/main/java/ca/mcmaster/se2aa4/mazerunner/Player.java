@@ -20,6 +20,10 @@ public class Player {
         this.currY = leftHandMazeOpening;
     }  
 
+    public int getCurrentDirection() {
+        return currentDirection;
+    }
+
     public void rotateLeft(List<List<Character>> mazeMap){ // rotate through the movement position list, which is a circular array
         currentDirection--;// as you index to the left, the character will rotate left
         if(currentDirection == -1){
