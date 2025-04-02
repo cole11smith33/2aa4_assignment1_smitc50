@@ -6,12 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MazeTest {
-    private final String MazeFilepath = "examples/regular.maz.txt";
+    private final String mazeFilepath = "examples/regular.maz.txt";
     private Maze maze;
 
     @BeforeEach
     void setUp(){
-        maze = new Maze(MazeFilepath);
+        maze = new Maze(mazeFilepath);
     }
 
     @Test
