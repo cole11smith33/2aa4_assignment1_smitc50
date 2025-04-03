@@ -14,16 +14,5 @@ public class TurnLeftCommand implements Command{
     @Override
     public void execute(){
         player.rotateLeft(mazeMap);
-    }
-
-    @Override
-    public void undo(){
-        player.rotateRight(mazeMap);
-    }
-
-    @Override
-    public void redo(){
-        player.rotateLeft(mazeMap);
-    }
-    
+    }  
 }
