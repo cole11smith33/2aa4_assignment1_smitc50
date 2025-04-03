@@ -18,6 +18,10 @@ public class ConvertPath {
     public void pathfind(Player player, Maze maze){
         algorithm.findPath(player, maze);
     }
+
+    public String getPathway() {
+        return pathway;
+    }
     
     public StringBuilder convertToFactorized(StringBuilder pathway) {
         logger.info(pathway);

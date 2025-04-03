@@ -5,7 +5,6 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -125,7 +124,7 @@ public class UserProvidedPathTest {
         String mazeFilepath = "examples/straight.maz.txt";
         maze = new Maze(mazeFilepath);
         player = new Player(maze.findEntrance());
-        userPath = new UserProvidedPath("FFFFF");
+        userPath = new UserProvidedPath("FFFF");
         userPath.findPath(player, maze);
 
         String output = outputStream.toString().trim();
