@@ -14,6 +14,7 @@ public class UserProvidedPath implements PathfindingAlgorithm{
     @Override
     public void findPath(Player player, Maze maze){
         ConvertPath convertPath = new ConvertPath(this);
+        CommandManager commandManager = new CommandManager();
         convertPath.convertToStandard(pathway);
 
         maze.printMaze();
@@ -21,9 +22,9 @@ public class UserProvidedPath implements PathfindingAlgorithm{
 
         while (true){
             switch (convertPath.readInput()) { //move according to provided path
-                case 'F' -> player.moveForward(maze.getMaze());
-                case 'R' -> player.rotateRight(maze.getMaze());
-                case 'L' -> player.rotateLeft(maze.getMaze());
+                case 'F' -> commandManager.executeCommand(new MoveForwardCommand(player, maze.getMaze()));
+                case 'R' -> commandManager.executeCommand(new TurnRightCommand(player, maze.getMaze()));
+                case 'L' -> commandManager.executeCommand(new TurnLeftCommand(player, maze.getMaze()));
                 case '0' -> {exit = true; break; } //end of input pathway reached
             }
             if (exit == true){ //end of input pathway has been reached so end traversal
@@ -32,6 +33,7 @@ public class UserProvidedPath implements PathfindingAlgorithm{
             maze.printMaze();
             logger.trace("\n");
         }
+
         if (maze.gameOver() == true){
             System.out.println("correct path"); //path validation 
         }
