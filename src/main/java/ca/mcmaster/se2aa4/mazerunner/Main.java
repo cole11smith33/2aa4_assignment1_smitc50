@@ -115,7 +115,7 @@ public class Main{
 
         options.addOption(flag); // add filepath flag option
         options.addOption(pFlag); // add path flag option
-        
+
         CommandLineParser parser = new DefaultParser();
 
         try {
@@ -136,13 +136,14 @@ public class Main{
             Maze maze = new Maze(filepath); //create maze object
             Player player1 = new Player(maze.findEntrance()); //create player object
 
-            Main mazeRunner = new MazerunnerBuilder(filepath) //mazerunner builder
+            Main mazeRunner = new MazerunnerBuilder(filepath) //build a maze runner
                 .setPathway(pathway)
                 .setMaze(maze)
                 .setPlayer(player1)
                 .setAlgorithm(algorithm)
                 .build();
-            mazeRunner.run(); //run the maze runner
+
+            mazeRunner.run(); //run the maze
 
         } catch (ParseException e) {
             logger.error(e.getMessage());
